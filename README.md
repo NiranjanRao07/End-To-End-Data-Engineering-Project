@@ -109,6 +109,3 @@ Any test failures are logged and flagged within Airflow, allowing for quick trou
 ---
 
 This project serves as an example of a modern data pipeline for financial data, combining Airflow and dbt in a Dockerized environment to ensure scalability, reproducibility, and data quality.
-
-Enjoy exploring the data and extending the pipeline as needed!
-```
