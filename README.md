@@ -1,4 +1,3 @@
-```markdown
 # Stock Data Analytics with Airflow and DBT
 
 ## Project Overview
