@@ -1,0 +1,55 @@
+[2024-11-11T03:05:32.153+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-11-11T03:05:32.180+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: YfinanceToSnowflake.extract manual__2024-11-11T03:05:29.758022+00:00 [queued]>
+[2024-11-11T03:05:32.188+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: YfinanceToSnowflake.extract manual__2024-11-11T03:05:29.758022+00:00 [queued]>
+[2024-11-11T03:05:32.188+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 1
+[2024-11-11T03:05:32.201+0000] {taskinstance.py:2330} INFO - Executing <Task(_PythonDecoratedOperator): extract> on 2024-11-11 03:05:29.758022+00:00
+[2024-11-11T03:05:32.208+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'YfinanceToSnowflake', 'extract', 'manual__2024-11-11T03:05:29.758022+00:00', '--job-id', '41', '--raw', '--subdir', 'DAGS_FOLDER/yfinance_to_snowflake.py', '--cfg-path', '/tmp/tmp6epvc1p3']
+[2024-11-11T03:05:32.212+0000] {standard_task_runner.py:91} INFO - Job 41: Subtask extract
+[2024-11-11T03:05:32.212+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=399) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2024-11-11T03:05:32.213+0000] {standard_task_runner.py:63} INFO - Started process 402 to run task
+[2024-11-11T03:05:32.258+0000] {task_command.py:426} INFO - Running <TaskInstance: YfinanceToSnowflake.extract manual__2024-11-11T03:05:29.758022+00:00 [running]> on host e77131eeb98c
+[2024-11-11T03:05:32.335+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='YfinanceToSnowflake' AIRFLOW_CTX_TASK_ID='extract' AIRFLOW_CTX_EXECUTION_DATE='2024-11-11T03:05:29.758022+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-11T03:05:29.758022+00:00'
+[2024-11-11T03:05:32.336+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-11-11T03:05:34.290+0000] {logging_mixin.py:188} WARNING - [*********************100%***********************]  1 of 1 completed
+[2024-11-11T03:05:34.291+0000] {multi.py:174} ERROR - 
+1 Failed download:
+[2024-11-11T03:05:34.292+0000] {multi.py:187} ERROR - ['AAPL']: YFPricesMissingError('$%ticker%: possibly delisted; no price data found  (1d 2024-11-11 -> 2024-11-12) (Yahoo error = "Data doesn\'t exist for startDate = 1731301200, endDate = 1731387600")')
+[2024-11-11T03:05:34.316+0000] {python.py:237} INFO - Done. Returned value was: {('Adj Close', 'AAPL'): [], ('Close', 'AAPL'): [], ('High', 'AAPL'): [], ('Low', 'AAPL'): [], ('Open', 'AAPL'): [], ('Volume', 'AAPL'): []}
+[2024-11-11T03:05:34.316+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-11-11T03:05:34.324+0000] {xcom.py:675} ERROR - keys must be str, int, float, bool or None, not tuple. If you are using pickle instead of JSON for XCom, then you need to enable pickle support for XCom in your *** config or make sure to decorate your object with attr.
+[2024-11-11T03:05:34.325+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 486, in _execute_task
+    task_instance.xcom_push(key=XCOM_RETURN_KEY, value=xcom_value, session=session)
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3197, in xcom_push
+    XCom.set(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/xcom.py", line 246, in set
+    value = cls.serialize_value(
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/xcom.py", line 673, in serialize_value
+    return json.dumps(value, cls=XComEncoder).encode("UTF-8")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/json.py", line 104, in encode
+    return super().encode(o)
+           ^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/json/encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/json/encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+TypeError: keys must be str, int, float, bool or None, not tuple
+[2024-11-11T03:05:34.335+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=YfinanceToSnowflake, task_id=extract, run_id=manual__2024-11-11T03:05:29.758022+00:00, execution_date=20241111T030529, start_date=20241111T030532, end_date=20241111T030534
+[2024-11-11T03:05:34.354+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 41 for task extract (keys must be str, int, float, bool or None, not tuple; 402)
+[2024-11-11T03:05:34.396+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-11-11T03:05:34.421+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-11-11T03:05:34.426+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

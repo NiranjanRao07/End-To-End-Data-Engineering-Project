@@ -1,0 +1,13 @@
+dbt:
+  outputs:
+    dev:
+      account: "{{ env_var('DBT_ACCOUNT') }}"
+      database: "STOCK_DATA_DB"
+      password: "{{ env_var('DBT_PASSWORD') }}"
+      role: "{{ env_var('DBT_ROLE') }}"
+      threads: 1
+      schema: "RAW_DATA"
+      type: "snowflake"
+      user: "{{ env_var('DBT_USER') }}"
+      warehouse: "{{ env_var('DBT_WAREHOUSE') }}"
+  target: dev

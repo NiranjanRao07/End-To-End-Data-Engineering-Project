@@ -1,0 +1,43 @@
+[2024-11-12T01:20:00.299+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-11-12T01:20:00.343+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T01:19:59.503138+00:00 [queued]>
+[2024-11-12T01:20:00.356+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T01:19:59.503138+00:00 [queued]>
+[2024-11-12T01:20:00.356+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 1
+[2024-11-12T01:20:00.371+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): dbt_run_moving_average> on 2024-11-12 01:19:59.503138+00:00
+[2024-11-12T01:20:00.378+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'BuildELT_dbt', 'dbt_run_moving_average', 'manual__2024-11-12T01:19:59.503138+00:00', '--job-id', '264', '--raw', '--subdir', 'DAGS_FOLDER/build_elt_with_dbt.py', '--cfg-path', '/tmp/tmphdirvp7g']
+[2024-11-12T01:20:00.381+0000] {standard_task_runner.py:91} INFO - Job 264: Subtask dbt_run_moving_average
+[2024-11-12T01:20:00.382+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=2193) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2024-11-12T01:20:00.383+0000] {standard_task_runner.py:63} INFO - Started process 2194 to run task
+[2024-11-12T01:20:00.436+0000] {task_command.py:426} INFO - Running <TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T01:19:59.503138+00:00 [running]> on host a23c71b4588d
+[2024-11-12T01:20:00.535+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='BuildELT_dbt' AIRFLOW_CTX_TASK_ID='dbt_run_moving_average' AIRFLOW_CTX_EXECUTION_DATE='2024-11-12T01:19:59.503138+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-12T01:19:59.503138+00:00'
+[2024-11-12T01:20:00.537+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-11-12T01:20:00.563+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2024-11-12T01:20:00.565+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '/home/***/.local/bin/dbt run --models moving_average --profiles-dir /opt/***/dbt --project-dir /opt/***/dbt']
+[2024-11-12T01:20:00.580+0000] {subprocess.py:86} INFO - Output:
+[2024-11-12T01:20:02.805+0000] {subprocess.py:93} INFO - [0m01:20:02  Running with dbt=1.8.8
+[2024-11-12T01:20:03.891+0000] {subprocess.py:93} INFO - [0m01:20:03  Registered adapter: snowflake=1.8.4
+[2024-11-12T01:20:04.468+0000] {subprocess.py:93} INFO - [0m01:20:04  [[33mWARNING[0m]: Deprecated functionality
+[2024-11-12T01:20:04.469+0000] {subprocess.py:93} INFO - The `tests` config has been renamed to `data_tests`. Please see
+[2024-11-12T01:20:04.469+0000] {subprocess.py:93} INFO - https://docs.getdbt.com/docs/build/data-tests#new-data_tests-syntax for more
+[2024-11-12T01:20:04.470+0000] {subprocess.py:93} INFO - information.
+[2024-11-12T01:20:04.748+0000] {subprocess.py:93} INFO - [0m01:20:04  [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+[2024-11-12T01:20:04.748+0000] {subprocess.py:93} INFO - There are 2 unused configuration paths:
+[2024-11-12T01:20:04.749+0000] {subprocess.py:93} INFO - - models.lab2_project.input
+[2024-11-12T01:20:04.749+0000] {subprocess.py:93} INFO - - models.lab2_project.output
+[2024-11-12T01:20:04.924+0000] {subprocess.py:93} INFO - [0m01:20:04  Found 1 snapshot, 2 models, 2 data tests, 2 sources, 454 macros
+[2024-11-12T01:20:04.928+0000] {subprocess.py:93} INFO - [0m01:20:04
+[2024-11-12T01:20:07.469+0000] {subprocess.py:93} INFO - [0m01:20:07  Concurrency: 1 threads (target='dev')
+[2024-11-12T01:20:07.470+0000] {subprocess.py:93} INFO - [0m01:20:07
+[2024-11-12T01:20:07.482+0000] {subprocess.py:93} INFO - [0m01:20:07  1 of 1 START sql view model RAW_DATA.moving_average ............................ [RUN]
+[2024-11-12T01:20:08.479+0000] {subprocess.py:93} INFO - [0m01:20:08  1 of 1 OK created sql view model RAW_DATA.moving_average ....................... [[32mSUCCESS 1[0m in 0.99s]
+[2024-11-12T01:20:08.485+0000] {subprocess.py:93} INFO - [0m01:20:08
+[2024-11-12T01:20:08.486+0000] {subprocess.py:93} INFO - [0m01:20:08  Finished running 1 view model in 0 hours 0 minutes and 3.56 seconds (3.56s).
+[2024-11-12T01:20:08.548+0000] {subprocess.py:93} INFO - [0m01:20:08
+[2024-11-12T01:20:08.549+0000] {subprocess.py:93} INFO - [0m01:20:08  [32mCompleted successfully[0m
+[2024-11-12T01:20:08.550+0000] {subprocess.py:93} INFO - [0m01:20:08
+[2024-11-12T01:20:08.551+0000] {subprocess.py:93} INFO - [0m01:20:08  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[2024-11-12T01:20:09.683+0000] {subprocess.py:97} INFO - Command exited with return code 0
+[2024-11-12T01:20:09.684+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-11-12T01:20:09.732+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=BuildELT_dbt, task_id=dbt_run_moving_average, run_id=manual__2024-11-12T01:19:59.503138+00:00, execution_date=20241112T011959, start_date=20241112T012000, end_date=20241112T012009
+[2024-11-12T01:20:09.795+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2024-11-12T01:20:09.852+0000] {taskinstance.py:3498} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2024-11-12T01:20:09.855+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

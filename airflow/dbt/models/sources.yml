@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: stock_data_db
+    database: STOCK_DATA_DB
+    schema: RAW_DATA
+    description: "Schema which stores raw stock price data"
+    tables:
+      - name: stock_prices
+        identifier: STOCK_PRICES
+        description: "Table containing stock price data for analysis"

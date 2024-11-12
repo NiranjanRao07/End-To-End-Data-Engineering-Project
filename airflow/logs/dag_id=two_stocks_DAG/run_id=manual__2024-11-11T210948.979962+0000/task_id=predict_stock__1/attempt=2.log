@@ -1,0 +1,59 @@
+[2024-11-11T21:14:56.798+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-11-11T21:14:56.820+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: two_stocks_DAG.predict_stock__1 manual__2024-11-11T21:09:48.979962+00:00 [queued]>
+[2024-11-11T21:14:56.830+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: two_stocks_DAG.predict_stock__1 manual__2024-11-11T21:09:48.979962+00:00 [queued]>
+[2024-11-11T21:14:56.831+0000] {taskinstance.py:2306} INFO - Starting attempt 2 of 3
+[2024-11-11T21:14:56.847+0000] {taskinstance.py:2330} INFO - Executing <Task(_PythonDecoratedOperator): predict_stock__1> on 2024-11-11 21:09:48.979962+00:00
+[2024-11-11T21:14:56.853+0000] {warnings.py:110} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61: DeprecationWarning: This process (pid=555) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-11-11T21:14:56.855+0000] {standard_task_runner.py:63} INFO - Started process 564 to run task
+[2024-11-11T21:14:56.855+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'two_stocks_DAG', 'predict_stock__1', 'manual__2024-11-11T21:09:48.979962+00:00', '--job-id', '197', '--raw', '--subdir', 'DAGS_FOLDER/two_stocks.py', '--cfg-path', '/tmp/tmp24l9fr2u']
+[2024-11-11T21:14:56.856+0000] {standard_task_runner.py:91} INFO - Job 197: Subtask predict_stock__1
+[2024-11-11T21:14:56.907+0000] {task_command.py:426} INFO - Running <TaskInstance: two_stocks_DAG.predict_stock__1 manual__2024-11-11T21:09:48.979962+00:00 [running]> on host 889c1536fdc4
+[2024-11-11T21:14:56.993+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='two_stocks_DAG' AIRFLOW_CTX_TASK_ID='predict_stock__1' AIRFLOW_CTX_EXECUTION_DATE='2024-11-11T21:09:48.979962+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-11T21:09:48.979962+00:00'
+[2024-11-11T21:14:56.994+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-11-11T21:14:57.005+0000] {base.py:84} INFO - Using connection ID 'snowflake_conn' for task execution.
+[2024-11-11T21:14:57.006+0000] {connection.py:399} INFO - Snowflake Connector for Python Version: 3.10.0, Python Version: 3.12.3, Platform: Linux-5.15.153.1-microsoft-standard-WSL2-x86_64-with-glibc2.36
+[2024-11-11T21:14:57.007+0000] {connection.py:1239} INFO - This connection is in OCSP Fail Open Mode. TLS Certificates would be checked for validity and revocation status. Any other Certificate Revocation related exceptions or OCSP Responder failures would be disregarded in favor of connectivity.
+[2024-11-11T21:14:59.436+0000] {logging_mixin.py:188} INFO - 210012 (P0001): 01b84eba-0004-26aa-0000-000258f79969: [MLUserError] Invalid Model Object. Please contact Snowflake Support team to resolve this issue.
+[2024-11-11T21:14:59.437+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-11-11T21:14:59.437+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/decorators/base.py", line 265, in execute
+    return_value = super().execute(context)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/two_stocks.py", line 142, in predict_stock
+    cur.execute(make_prediction_sql)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/cursor.py", line 1080, in execute
+    Error.errorhandler_wrapper(self.connection, self, error_class, errvalue)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 290, in errorhandler_wrapper
+    handed_over = Error.hand_to_other_handler(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 345, in hand_to_other_handler
+    cursor.errorhandler(connection, cursor, error_class, error_value)
+  File "/home/airflow/.local/lib/python3.12/site-packages/snowflake/connector/errors.py", line 221, in default_errorhandler
+    raise error_class(
+snowflake.connector.errors.ProgrammingError: 210012 (P0001): 01b84eba-0004-26aa-0000-000258f79969: [MLUserError] Invalid Model Object. Please contact Snowflake Support team to resolve this issue.
+[2024-11-11T21:14:59.447+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=two_stocks_DAG, task_id=predict_stock__1, run_id=manual__2024-11-11T21:09:48.979962+00:00, execution_date=20241111T210948, start_date=20241111T211456, end_date=20241111T211459
+[2024-11-11T21:14:59.461+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 197 for task predict_stock__1 (210012 (P0001): 01b84eba-0004-26aa-0000-000258f79969: [MLUserError] Invalid Model Object. Please contact Snowflake Support team to resolve this issue.; 564)
+[2024-11-11T21:14:59.481+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-11-11T21:14:59.496+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-11-11T21:14:59.498+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

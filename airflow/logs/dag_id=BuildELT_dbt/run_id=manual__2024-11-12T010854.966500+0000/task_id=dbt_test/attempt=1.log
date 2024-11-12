@@ -1,0 +1,73 @@
+[2024-11-12T01:09:16.843+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-11-12T01:09:16.873+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_test manual__2024-11-12T01:08:54.966500+00:00 [queued]>
+[2024-11-12T01:09:16.881+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_test manual__2024-11-12T01:08:54.966500+00:00 [queued]>
+[2024-11-12T01:09:16.882+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 1
+[2024-11-12T01:09:16.895+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): dbt_test> on 2024-11-12 01:08:54.966500+00:00
+[2024-11-12T01:09:16.902+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'BuildELT_dbt', 'dbt_test', 'manual__2024-11-12T01:08:54.966500+00:00', '--job-id', '260', '--raw', '--subdir', 'DAGS_FOLDER/build_elt_with_dbt.py', '--cfg-path', '/tmp/tmpfrcc43ki']
+[2024-11-12T01:09:16.905+0000] {standard_task_runner.py:91} INFO - Job 260: Subtask dbt_test
+[2024-11-12T01:09:16.906+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=1737) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2024-11-12T01:09:16.907+0000] {standard_task_runner.py:63} INFO - Started process 1738 to run task
+[2024-11-12T01:09:16.948+0000] {task_command.py:426} INFO - Running <TaskInstance: BuildELT_dbt.dbt_test manual__2024-11-12T01:08:54.966500+00:00 [running]> on host a23c71b4588d
+[2024-11-12T01:09:17.025+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='BuildELT_dbt' AIRFLOW_CTX_TASK_ID='dbt_test' AIRFLOW_CTX_EXECUTION_DATE='2024-11-12T01:08:54.966500+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-12T01:08:54.966500+00:00'
+[2024-11-12T01:09:17.026+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-11-12T01:09:17.040+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2024-11-12T01:09:17.041+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '/home/***/.local/bin/dbt test --profiles-dir /opt/***/dbt --project-dir /opt/***/dbt']
+[2024-11-12T01:09:17.048+0000] {subprocess.py:86} INFO - Output:
+[2024-11-12T01:09:19.564+0000] {subprocess.py:93} INFO - [0m01:09:19  Running with dbt=1.8.8
+[2024-11-12T01:09:20.790+0000] {subprocess.py:93} INFO - [0m01:09:20  Registered adapter: snowflake=1.8.4
+[2024-11-12T01:09:21.133+0000] {subprocess.py:93} INFO - [0m01:09:21  [[33mWARNING[0m]: Configuration paths exist in your dbt_project.yml file which do not apply to any resources.
+[2024-11-12T01:09:21.133+0000] {subprocess.py:93} INFO - There are 2 unused configuration paths:
+[2024-11-12T01:09:21.134+0000] {subprocess.py:93} INFO - - models.lab2_project.input
+[2024-11-12T01:09:21.134+0000] {subprocess.py:93} INFO - - models.lab2_project.output
+[2024-11-12T01:09:21.383+0000] {subprocess.py:93} INFO - [0m01:09:21  Found 2 models, 1 snapshot, 3 data tests, 2 sources, 454 macros
+[2024-11-12T01:09:21.387+0000] {subprocess.py:93} INFO - [0m01:09:21
+[2024-11-12T01:09:22.994+0000] {subprocess.py:93} INFO - [0m01:09:22  Concurrency: 1 threads (target='dev')
+[2024-11-12T01:09:22.995+0000] {subprocess.py:93} INFO - [0m01:09:22
+[2024-11-12T01:09:23.008+0000] {subprocess.py:93} INFO - [0m01:09:23  1 of 3 START test not_null_moving_average_price ................................ [RUN]
+[2024-11-12T01:09:23.779+0000] {subprocess.py:93} INFO - [0m01:09:23  1 of 3 ERROR not_null_moving_average_price ..................................... [[31mERROR[0m in 0.77s]
+[2024-11-12T01:09:23.784+0000] {subprocess.py:93} INFO - [0m01:09:23  2 of 3 START test not_null_rsi_rsi_value ....................................... [RUN]
+[2024-11-12T01:09:24.583+0000] {subprocess.py:93} INFO - [0m01:09:24  2 of 3 ERROR not_null_rsi_rsi_value ............................................ [[31mERROR[0m in 0.80s]
+[2024-11-12T01:09:24.587+0000] {subprocess.py:93} INFO - [0m01:09:24  3 of 3 START test unique_moving_average_price .................................. [RUN]
+[2024-11-12T01:09:25.846+0000] {subprocess.py:93} INFO - [0m01:09:25  3 of 3 ERROR unique_moving_average_price ....................................... [[31mERROR[0m in 1.26s]
+[2024-11-12T01:09:25.853+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.854+0000] {subprocess.py:93} INFO - [0m01:09:25  Finished running 3 data tests in 0 hours 0 minutes and 4.46 seconds (4.46s).
+[2024-11-12T01:09:25.920+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.921+0000] {subprocess.py:93} INFO - [0m01:09:25  [31mCompleted with 3 errors and 0 warnings:[0m
+[2024-11-12T01:09:25.922+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.923+0000] {subprocess.py:93} INFO - [0m01:09:25    Database Error in test not_null_moving_average_price (models/schema.yml)
+[2024-11-12T01:09:25.924+0000] {subprocess.py:93} INFO -   000904 (42000): SQL compilation error: error line 12 at position 7
+[2024-11-12T01:09:25.924+0000] {subprocess.py:93} INFO -   invalid identifier 'PRICE'
+[2024-11-12T01:09:25.925+0000] {subprocess.py:93} INFO -   compiled code at target/run/lab2_project/models/schema.yml/not_null_moving_average_price.sql
+[2024-11-12T01:09:25.925+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.926+0000] {subprocess.py:93} INFO - [0m01:09:25    Database Error in test not_null_rsi_rsi_value (models/schema.yml)
+[2024-11-12T01:09:25.926+0000] {subprocess.py:93} INFO -   000904 (42000): SQL compilation error: error line 12 at position 7
+[2024-11-12T01:09:25.927+0000] {subprocess.py:93} INFO -   invalid identifier 'RSI_VALUE'
+[2024-11-12T01:09:25.927+0000] {subprocess.py:93} INFO -   compiled code at target/run/lab2_project/models/schema.yml/not_null_rsi_rsi_value.sql
+[2024-11-12T01:09:25.928+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.928+0000] {subprocess.py:93} INFO - [0m01:09:25    Database Error in test unique_moving_average_price (models/schema.yml)
+[2024-11-12T01:09:25.929+0000] {subprocess.py:93} INFO -   000904 (42000): SQL compilation error: error line 11 at position 4
+[2024-11-12T01:09:25.929+0000] {subprocess.py:93} INFO -   invalid identifier 'PRICE'
+[2024-11-12T01:09:25.930+0000] {subprocess.py:93} INFO -   compiled code at target/run/lab2_project/models/schema.yml/unique_moving_average_price.sql
+[2024-11-12T01:09:25.930+0000] {subprocess.py:93} INFO - [0m01:09:25
+[2024-11-12T01:09:25.931+0000] {subprocess.py:93} INFO - [0m01:09:25  Done. PASS=0 WARN=0 ERROR=3 SKIP=0 TOTAL=3
+[2024-11-12T01:09:26.722+0000] {subprocess.py:97} INFO - Command exited with return code 1
+[2024-11-12T01:09:26.723+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-11-12T01:09:26.733+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2024-11-12T01:09:26.737+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=BuildELT_dbt, task_id=dbt_test, run_id=manual__2024-11-12T01:08:54.966500+00:00, execution_date=20241112T010854, start_date=20241112T010916, end_date=20241112T010926
+[2024-11-12T01:09:26.749+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 260 for task dbt_test (Bash command failed. The command returned a non-zero exit code 1.; 1738)
+[2024-11-12T01:09:26.769+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-11-12T01:09:26.790+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-11-12T01:09:26.794+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

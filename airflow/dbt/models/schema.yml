@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: stock_data_db
+    schema: RAW_DATA
+    tables:
+      - name: STOCK_PRICES
+        description: "Table containing stock price data"
+
+models:
+  - name: moving_average
+    description: "Model for calculating moving averages on stock price data"
+    columns:
+      - name: close
+        description: "Closing stock price"
+        tests:
+          - not_null
+
+  - name: rsi
+    description: "Model for calculating RSI on stock price data"
+    columns:
+      - name: rsi
+        description: "RSI value"

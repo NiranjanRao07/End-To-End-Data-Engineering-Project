@@ -1,0 +1,46 @@
+[2024-11-12T00:44:39.143+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2024-11-12T00:44:39.174+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T00:44:38.581684+00:00 [queued]>
+[2024-11-12T00:44:39.183+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T00:44:38.581684+00:00 [queued]>
+[2024-11-12T00:44:39.183+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 1
+[2024-11-12T00:44:39.199+0000] {taskinstance.py:2330} INFO - Executing <Task(BashOperator): dbt_run_moving_average> on 2024-11-12 00:44:38.581684+00:00
+[2024-11-12T00:44:39.207+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'BuildELT_dbt', 'dbt_run_moving_average', 'manual__2024-11-12T00:44:38.581684+00:00', '--job-id', '250', '--raw', '--subdir', 'DAGS_FOLDER/build_elt_with_dbt.py', '--cfg-path', '/tmp/tmpjcvkj2qj']
+[2024-11-12T00:44:39.210+0000] {standard_task_runner.py:91} INFO - Job 250: Subtask dbt_run_moving_average
+[2024-11-12T00:44:39.211+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=670) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2024-11-12T00:44:39.212+0000] {standard_task_runner.py:63} INFO - Started process 671 to run task
+[2024-11-12T00:44:39.252+0000] {task_command.py:426} INFO - Running <TaskInstance: BuildELT_dbt.dbt_run_moving_average manual__2024-11-12T00:44:38.581684+00:00 [running]> on host a23c71b4588d
+[2024-11-12T00:44:39.341+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='BuildELT_dbt' AIRFLOW_CTX_TASK_ID='dbt_run_moving_average' AIRFLOW_CTX_EXECUTION_DATE='2024-11-12T00:44:38.581684+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-12T00:44:38.581684+00:00'
+[2024-11-12T00:44:39.341+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2024-11-12T00:44:39.357+0000] {subprocess.py:63} INFO - Tmp dir root location: /tmp
+[2024-11-12T00:44:39.358+0000] {subprocess.py:75} INFO - Running command: ['/usr/bin/bash', '-c', '/home/***/.local/bin/dbt run --models moving_average --profiles-dir /opt/***/dbt --project-dir /opt/***/dbt']
+[2024-11-12T00:44:39.365+0000] {subprocess.py:86} INFO - Output:
+[2024-11-12T00:44:41.792+0000] {subprocess.py:93} INFO - [0m00:44:41  Running with dbt=1.8.8
+[2024-11-12T00:44:42.971+0000] {subprocess.py:93} INFO - [0m00:44:42  Registered adapter: snowflake=1.8.4
+[2024-11-12T00:44:43.128+0000] {subprocess.py:93} INFO - [0m00:44:43  Unable to do partial parsing because of a version mismatch
+[2024-11-12T00:44:44.788+0000] {subprocess.py:93} INFO - [0m00:44:44  [[33mWARNING[0m]: Deprecated functionality
+[2024-11-12T00:44:44.789+0000] {subprocess.py:93} INFO - The `tests` config has been renamed to `data_tests`. Please see
+[2024-11-12T00:44:44.790+0000] {subprocess.py:93} INFO - https://docs.getdbt.com/docs/build/data-tests#new-data_tests-syntax for more
+[2024-11-12T00:44:44.790+0000] {subprocess.py:93} INFO - information.
+[2024-11-12T00:44:45.048+0000] {subprocess.py:93} INFO - [0m00:44:45  Encountered an error:
+[2024-11-12T00:44:45.048+0000] {subprocess.py:93} INFO - Compilation Error
+[2024-11-12T00:44:45.049+0000] {subprocess.py:93} INFO -   Snapshot 'snapshot.lab2_project.snapshot_session_summary' (snapshots/snapshot_session_summary.sql) depends on a source named 'analytics.session_summary' which was not found
+[2024-11-12T00:44:46.405+0000] {subprocess.py:97} INFO - Command exited with return code 2
+[2024-11-12T00:44:46.406+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2024-11-12T00:44:46.416+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 243, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 2.
+[2024-11-12T00:44:46.421+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=BuildELT_dbt, task_id=dbt_run_moving_average, run_id=manual__2024-11-12T00:44:38.581684+00:00, execution_date=20241112T004438, start_date=20241112T004439, end_date=20241112T004446
+[2024-11-12T00:44:46.433+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 250 for task dbt_run_moving_average (Bash command failed. The command returned a non-zero exit code 2.; 671)
+[2024-11-12T00:44:46.447+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2024-11-12T00:44:46.470+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-11-12T00:44:46.474+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
