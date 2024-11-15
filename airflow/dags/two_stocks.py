@@ -6,13 +6,11 @@ from datetime import timedelta, datetime
 import snowflake.connector
 import requests
 
-
 # Snowflake connection function
 def return_snowflake_conn():
     hook = SnowflakeHook(snowflake_conn_id="snowflake_conn")
     conn = hook.get_conn()
     return conn.cursor()
-
 
 # Task to extract the last 90 days of stock prices from Alpha Vantage API
 @task
@@ -28,7 +26,6 @@ def extract_stock_data():
         stock_data[symbol] = data
 
     return stock_data
-
 
 # Task to transform the extracted data into a format ready for loading into Snowflake
 @task
@@ -49,7 +46,6 @@ def transform_stock_data(stock_data):
             results.append(record)
     return results
 
-
 # Task to load the transformed data into Snowflake
 @task
 def load_to_snowflake(data):
@@ -58,7 +54,7 @@ def load_to_snowflake(data):
     cur.execute("CREATE SCHEMA IF NOT EXISTS stock_data_db.raw_data;")
     cur.execute(
         """
-        CREATE OR REPLACE TABLE stock_data_db.raw_data.stock_prices (
+        CREATE TABLE IF NOT EXISTS stock_data_db.raw_data.stock_prices (
             date TIMESTAMP_NTZ NOT NULL,
             open FLOAT,
             high FLOAT,
@@ -72,12 +68,15 @@ def load_to_snowflake(data):
     )
     insert_query = """
         INSERT INTO stock_data_db.raw_data.stock_prices (date, open, high, low, close, volume, symbol)
-        VALUES (%(date)s, %(open)s, %(high)s, %(low)s, %(close)s, %(volume)s, %(symbol)s)
+        SELECT %(date)s, %(open)s, %(high)s, %(low)s, %(close)s, %(volume)s, %(symbol)s
+        WHERE NOT EXISTS (
+            SELECT 1 FROM stock_data_db.raw_data.stock_prices
+            WHERE date = %(date)s AND symbol = %(symbol)s
+        )
     """
     for record in data:
         cur.execute(insert_query, record)
     cur.close()
-
 
 # Task to create and train a model for a specific stock symbol
 @task
@@ -89,28 +88,24 @@ def train_stock_model(symbol):
     train_view = f"stock_data_db.adhoc.{symbol}_market_data_view"
     forecast_function_name = f"stock_data_db.analytics.predict_{symbol}_stock_price"
 
-    # Create a view with training related columns for the specified symbol
+    # Create a view with training related columns for the specified symbol if not exists
     create_view_sql = f"""CREATE OR REPLACE VIEW {train_view} AS SELECT
         DATE::TIMESTAMP_NTZ AS DATE, CLOSE, SYMBOL
         FROM {train_input_table}
         WHERE SYMBOL = '{symbol}';"""  # Filter by symbol
 
-    create_model_sql = f"""CREATE OR REPLACE SNOWFLAKE.ML.FORECAST {forecast_function_name} (
-        INPUT_DATA => SYSTEM$REFERENCE('VIEW', '{train_view}'),
-        SERIES_COLNAME => 'SYMBOL',
-        TIMESTAMP_COLNAME => 'DATE',
-        TARGET_COLNAME => 'CLOSE',
-        CONFIG_OBJECT => {{ 'ON_ERROR': 'SKIP' }}
-    );"""
-
-    try:
-        cur.execute(create_view_sql)
+    # Check if model function exists before creating
+    check_model_sql = f"SHOW FUNCTIONS LIKE '{forecast_function_name}';"
+    cur.execute(check_model_sql)
+    if not cur.fetchone():  # If model does not exist, create it
+        create_model_sql = f"""CREATE OR REPLACE SNOWFLAKE.ML.FORECAST {forecast_function_name} (
+            INPUT_DATA => SYSTEM$REFERENCE('VIEW', '{train_view}'),
+            SERIES_COLNAME => 'SYMBOL',
+            TIMESTAMP_COLNAME => 'DATE',
+            TARGET_COLNAME => 'CLOSE',
+            CONFIG_OBJECT => {{ 'ON_ERROR': 'SKIP' }}
+        );"""
         cur.execute(create_model_sql)
-        cur.execute(f"CALL {forecast_function_name}!SHOW_EVALUATION_METRICS();")
-    except Exception as e:
-        print(e)
-        raise
-
 
 # Task to generate predictions for a specific stock symbol
 @task
@@ -121,14 +116,19 @@ def predict_stock(symbol):
     final_table = f"stock_data_db.analytics.{symbol}_market_data"
     forecast_function_name = f"stock_data_db.analytics.predict_{symbol}_stock_price"
 
-    make_prediction_sql = f"""BEGIN
-        CALL {forecast_function_name}!FORECAST(
-            FORECASTING_PERIODS => 7,
-            CONFIG_OBJECT => {{'prediction_interval': 0.95}}
-        );
-        LET x := SQLID;
-        CREATE OR REPLACE TABLE {forecast_table} AS SELECT * FROM TABLE(RESULT_SCAN(:x));
-    END;"""
+    # Check if the forecast has already been made before generating
+    check_forecast_sql = f"SHOW TABLES LIKE '{forecast_table}';"
+    cur.execute(check_forecast_sql)
+    if not cur.fetchone():  # If forecast table does not exist, generate it
+        make_prediction_sql = f"""BEGIN
+            CALL {forecast_function_name}!FORECAST(
+                FORECASTING_PERIODS => 7,
+                CONFIG_OBJECT => {{'prediction_interval': 0.95}}
+            );
+            LET x := SQLID;
+            CREATE OR REPLACE TABLE {forecast_table} AS SELECT * FROM TABLE(RESULT_SCAN(:x));
+        END;"""
+        cur.execute(make_prediction_sql)
 
     create_final_table_sql = f"""CREATE OR REPLACE TABLE {final_table} AS
         SELECT SYMBOL, DATE, CLOSE AS actual, NULL AS forecast, NULL AS lower_bound, NULL AS upper_bound
@@ -137,14 +137,7 @@ def predict_stock(symbol):
         UNION ALL
         SELECT REPLACE(series, '"', '') AS SYMBOL, ts AS DATE, NULL AS actual, forecast, lower_bound, upper_bound
         FROM {forecast_table};"""
-
-    try:
-        cur.execute(make_prediction_sql)
-        cur.execute(create_final_table_sql)
-    except Exception as e:
-        print(e)
-        raise
-
+    cur.execute(create_final_table_sql)
 
 # Defining the DAG
 with DAG(
